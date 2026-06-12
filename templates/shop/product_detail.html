@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:20px;">
+    <img src="{{ product.image_url }}" style="width:100%; border-radius:10px; object-fit:cover;" alt="{{ product.name }}">
+    <div>
+        <h1 style="margin-bottom:10px;">{{ product.name }}</h1>
+        <p style="color:#666; margin-bottom:15px;">{{ product.category.name }}</p>
+        <p style="font-size:2rem; font-weight:bold; color:var(--primary); margin-bottom:20px;">{{ product.price }} ₽</p>
+        <p style="line-height:1.8; margin-bottom:30px;">{{ product.description }}</p>
+        <p style="margin-bottom:20px;">Остаток: <strong>{{ product.stock }} шт.</strong></p>
+        <a href="{% url 'add_to_cart' product.id %}" class="btn" style="padding:15px 30px; font-size:1.1rem;">Добавить в корзину</a>
+    </div>
+</div>
+{% endblock %}

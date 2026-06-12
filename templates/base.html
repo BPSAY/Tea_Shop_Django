@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Чайная Лавка{% endblock %}</title>
+    <style>
+        :root { --primary: #8B4513; --accent: #D2691E; --bg: #FDF5E6; --text: #333; --card: #fff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: var(--primary); color: #fff; padding: 1rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: #fff; }
+        .nav-links a { color: #fff; text-decoration: none; margin-left: 20px; font-weight: 500; transition: 0.2s; }
+        .nav-links a:hover { color: #FFD700; }
+        main { padding: 2rem 0; min-height: 80vh; }
+        .btn { display: inline-block; padding: 10px 20px; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; font-weight: 500; transition: 0.2s; }
+        .btn:hover { background: #A0522D; }
+        .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
+        .btn-outline:hover { background: var(--accent); color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card { background: var(--card); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+        .card-img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+        .card-body { padding: 15px; }
+        .card-title { font-size: 1.2rem; margin-bottom: 8px; }
+        .card-price { font-size: 1.3rem; font-weight: bold; color: var(--primary); margin: 10px 0; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; color: #fff; margin-right: 5px; }
+        .badge-new { background: #2E8B57; }
+        .badge-hit { background: #DC143C; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+        .alert { padding: 12px; border-radius: 6px; margin-bottom: 20px; }
+        .alert-success { background: #D4EDDA; color: #155724; }
+        .alert-error { background: #F8D7DA; color: #721C24; }
+        footer { background: #333; color: #ccc; text-align: center; padding: 2rem 0; margin-top: 3rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #f8f9fa; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <a href="{% url 'index' %}" class="logo">🍵 Чайная Лавка</a>
+            <div class="nav-links">
+                <a href="{% url 'index' %}">Главная</a>
+                <a href="{% url 'catalog' %}">Каталог</a>
+                <a href="{% url 'cart' %}">Корзина</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">Профиль</a>
+                    <a href="{% url 'order_history' %}">Заказы</a>
+                    <a href="{% url 'logout' %}">Выход</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Вход</a>
+                    <a href="{% url 'register' %}">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert alert-{{ msg.tags }}">{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Чайная Лавка. Учебный проект Django.</p>
+        </div>
+    </footer>
+</body>
+</html>

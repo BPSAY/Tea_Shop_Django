@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+<div style="text-align:center; padding:3rem 0;">
+    <h1 style="font-size:2.5rem; margin-bottom:1rem; color:var(--primary);">Искусство чая в каждой чашке</h1>
+    <p style="font-size:1.2rem; color:#666; max-width:700px; margin:0 auto 2rem;">Отборные сорта из Китая, Японии и Тайваня. Доставка по всей России.</p>
+    <a href="{% url 'catalog' %}" class="btn">Перейти в каталог</a>
+</div>
+
+<h2 style="margin-top:2rem;">🔥 Новинки</h2>
+<div class="grid">
+    {% for p in new_products %}
+    <div class="card">
+        <img src="{{ p.image_url }}" class="card-img" alt="{{ p.name }}">
+        <div class="card-body">
+            <span class="badge badge-new">Новинка</span>
+            <h3 class="card-title">{{ p.name }}</h3>
+            <p class="card-price">{{ p.price }} ₽</p>
+            <a href="{% url 'product_detail' p.slug %}" class="btn-outline btn" style="width:100%; text-align:center;">Подробнее</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<h2 style="margin-top:3rem;">⭐ Хиты продаж</h2>
+<div class="grid">
+    {% for p in bestsellers %}
+    <div class="card">
+        <img src="{{ p.image_url }}" class="card-img" alt="{{ p.name }}">
+        <div class="card-body">
+            <span class="badge badge-hit">Хит</span>
+            <h3 class="card-title">{{ p.name }}</h3>
+            <p class="card-price">{{ p.price }} ₽</p>
+            <a href="{% url 'product_detail' p.slug %}" class="btn-outline btn" style="width:100%; text-align:center;">Подробнее</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

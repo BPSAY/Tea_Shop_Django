@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<h1>Регистрация</h1>
+<form method="post" style="max-width:400px; background:#fff; padding:30px; border-radius:10px; margin-top:20px;">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="form-group"><label>Логин</label>{{ form.username }}</div>
+    <div class="form-group"><label>Email</label>{{ form.email }}</div>
+    <div class="form-group"><label>Пароль</label>{{ form.password1 }}</div>
+    <div class="form-group"><label>Повторите пароль</label>{{ form.password2 }}</div>
+    <button type="submit" class="btn" style="width:100%;">Создать аккаунт</button>
+</form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Оформление заказа{% endblock %}
+{% block content %}
+<h1>Оформление заказа</h1>
+<form method="post" style="max-width:600px; background:#fff; padding:30px; border-radius:10px; margin-top:20px;">
+    {% csrf_token %}
+    <div class="form-group"><label>Адрес доставки</label><input type="text" name="address" required></div>
+    <div class="form-group"><label>Телефон</label><input type="tel" name="phone" required></div>
+    <div class="form-group"><label>Комментарий</label><textarea name="comment" rows="3"></textarea></div>
+    <div style="margin:20px 0; padding:15px; background:#f8f9fa; border-radius:6px;">
+        <strong>Итого к оплате: {{ cart.get_total }} ₽</strong>
+    </div>
+    <button type="submit" class="btn" style="width:100%; padding:15px;">Подтвердить заказ</button>
+</form>
+{% endblock %}

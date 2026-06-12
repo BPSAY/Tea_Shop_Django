@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Заказы{% endblock %}
+{% block content %}
+{% if success %}
+<div class="alert alert-success">Заказ #{{ order.id }} успешно оформлен! Сумма: {{ order.total }} ₽</div>
+<a href="{% url 'catalog' %}" class="btn">Продолжить покупки</a>
+{% else %}
+<h1>История заказов</h1>
+{% if orders %}
+<table>
+    <thead><tr><th>№</th><th>Дата</th><th>Сумма</th><th>Статус</th><th>Адрес</th></tr></thead>
+    <tbody>
+        {% for o in orders %}
+        <tr>
+            <td>#{{ o.id }}</td>
+            <td>{{ o.created_at|date:"d.m.Y H:i" }}</td>
+            <td>{{ o.total }} ₽</td>
+            <td>{{ o.get_status_display }}</td>
+            <td>{{ o.address }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>У вас пока нет заказов.</p>
+{% endif %}
+{% endif %}
+{% endblock %}

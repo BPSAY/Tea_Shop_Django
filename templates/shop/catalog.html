@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Каталог{% endblock %}
+{% block content %}
+<h1>Каталог чая</h1>
+<form method="get" class="flex-between" style="margin:20px 0; background:#fff; padding:15px; border-radius:8px;">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Поиск по названию..." style="flex:1; padding:10px; border:1px solid #ccc; border-radius:6px;">
+    <select name="category" style="padding:10px; border:1px solid #ccc; border-radius:6px; margin:0 10px;">
+        <option value="">Все категории</option>
+        {% for cat in categories %}
+        <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+        {% endfor %}
+    </select>
+    <select name="sort" style="padding:10px; border:1px solid #ccc; border-radius:6px; margin-right:10px;">
+        <option value="-created_at" {% if request.GET.sort == '-created_at' %}selected{% endif %}>Новые</option>
+        <option value="price" {% if request.GET.sort == 'price' %}selected{% endif %}>Цена ↑</option>
+        <option value="-price" {% if request.GET.sort == '-price' %}selected{% endif %}>Цена ↓</option>
+    </select>
+    <button type="submit" class="btn">Применить</button>
+</form>
+
+<div class="grid">
+    {% for p in products %}
+    <div class="card">
+        <img src="{{ p.image_url }}" class="card-img" alt="{{ p.name }}">
+        <div class="card-body">
+            {% if p.is_new %}<span class="badge badge-new">Новинка</span>{% endif %}
+            {% if p.is_bestseller %}<span class="badge badge-hit">Хит</span>{% endif %}
+            <h3 class="card-title">{{ p.name }}</h3>
+            <p style="color:#666; font-size:0.9rem; margin:5px 0;">{{ p.category.name }}</p>
+            <p class="card-price">{{ p.price }} ₽</p>
+            <div class="flex-between">
+                <a href="{% url 'product_detail' p.slug %}" class="btn-outline btn">Подробнее</a>
+                <a href="{% url 'add_to_cart' p.id %}" class="btn">В корзину</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Товары не найдены.</p>
+    {% endfor %}
+</div>
+{% endblock %}
